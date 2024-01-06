@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <canvas id="c1" width="300" height="300"></canvas>
+    <style>
+        #c1 {
+            border: 1px solid black;
+        }
+    </style>
+    <script>
+        const canvas = document.querySelector('#c1');
+        const ctx = canvas.getContext('2d');
+
+        // 小畫版
+        ctx.strokeStyle = 'black';
+
+        let drawing = false
+        canvas.addEventListener('mousedown', e => {
+        drawing = true
+        ctx.moveTo(e.offsetX, e.offsetY)
+        })
+
+        canvas.addEventListener('mousemove', e => {
+        if (drawing === true) {
+            ctx.lineTo(e.offsetX, e.offsetY)
+            ctx.stroke()
+        }
+        })
+
+        document.addEventListener('mouseup', () => drawing = false)
+    </script>
+</body>
+</html>
