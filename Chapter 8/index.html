@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdn.tailwindcss.com"></script>
+        <title>Chatroom</title>
+    </head>
+    <body>
+        <h1 class="text-cyan-300">Chatroom</h1>
+        <div class="chatroom">
+
+        </div>
+        <form>
+            <input type="text" id="user" placeholder="User">
+            <input type="text" id="msg" placeholder="Message">
+            <input type="submit">
+        </form>
+        <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+        <script>
+            const socket = io()
+            document.querySelector('form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                if (document.querySelector('#user').value && document.querySelector('#msg').value) {
+                    let data = {
+                        "user": document.querySelector('#user').value,
+                        "msg": document.querySelector('#msg').value,
+                        "date": null
+                    }
+                    data = JSON.stringify(data);
+                    socket.emit('submit message', data);
+                    document.querySelector('#msg').value = '';
+                }
+            })
+
+            socket.on("update chatroom", (data) => {
+                let msgs = JSON.parse(data);
+                console.log(msgs);
+
+                let chatroom = document.querySelector('.chatroom');
+                let msg_elem = null;
+
+                msgs.forEach(msg => {
+                    msg_elem = document.createElement('h2');
+                    msg_elem.innerText = `${msg['user']} [${msg['date']}] : ${msg['msg']}`;
+                    chatroom.appendChild(msg_elem);
+                });
+            })
+        </script>
+    </body>
+</html>

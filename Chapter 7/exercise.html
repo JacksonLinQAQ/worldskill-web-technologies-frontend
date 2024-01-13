@@ -94,15 +94,12 @@
             }
         }, 100)
         
+        const url_elem = document.querySelector('#url')
 
-        document.querySelector('#url').onchange = () => {
-            if (!document.querySelector('#url').value) {
-                url = null;
-            } else {
-                url = document.querySelector('#url').value;
-            }
-            img.src = document.querySelector('#url').value;
-        }
+        url_elem.addEventListener('change', () => {
+            url = url_elem.value || null;
+            img.src = url_elem.value;
+        })
 
         canvas.addEventListener('mousedown', (e) => {
             resizing = true;
@@ -110,9 +107,59 @@
 
         canvas.addEventListener('mousemove', (e) => {
             if (resizing) {
-                let mousex = e.offsetX
-                let mousey = e.offsetY
+                let mousex = e.offsetX;
+                let mousey = e.offsetY;
+                let mouse_in_range = 290 >= mousex && mousex >= 5 && 290 >= mousey && mousey >= 5;
+
+                let d_tl = Math.sqrt(Math.pow(p_tl[0] - mousex, 2) + Math.pow(p_tl[1] - mousey, 2)) <= 30;
+                let d_tr = Math.sqrt(Math.pow(p_tl[0] + p_br[0] - p_tl[0] - mousex, 2) + Math.pow(p_tl[1] - mousey, 2)) <= 30;
+                let d_bl = Math.sqrt(Math.pow(p_tl[0] - mousex, 2) + Math.pow(p_tl[1] + p_br[1] - p_tl[1] - mousey, 2)) <= 30;
+                let d_br = Math.sqrt(Math.pow(p_br[0] - mousex, 2) + Math.pow(p_br[1] - mousey, 2)) <= 30;
+
+                let res_width = p_br[0] - p_tl[0];
+                let res_height = p_br[1] - p_tl[1];
+                console.log(res_width, res_height);
+
+                if (d_tl && res_width > 50 && res_height > 50 && mouse_in_range) {
+                    if (p_br[0] - mousex > 50) {
+                        p_tl[0] = mousex;
+                    }
+                    if (p_br[1] - mousey > 50) {
+                        p_tl[1] = mousey;
+                    }
+                }
+
+                if (d_tr && res_width > 50 && res_height > 50 && mouse_in_range) {
+                    if (mousex - p_tl[0] > 50) {
+                        p_tl = [p_tl[0], mousey];
+                    }
+                    if (p_br[1] - mousey > 50) {
+                        p_br = [mousex, p_br[1]];
+                    }
+                }
+
+                if (d_bl && res_width > 50 && res_height > 50 && mouse_in_range) {
+                    if (p_br[0] - mousex > 50) {
+                        p_tl = [mousex, p_tl[1]];
+                    }
+                    if (mousey - p_tl[1] > 50) {
+                        p_br = [p_br[0], mousey];
+                    }
+                }
+
+                if (d_br && res_width > 50 && res_height > 50 && mouse_in_range) {
+                    if (mousex - p_tl[0] > 50) {
+                        p_br[0] = mousex;
+                    }
+                    if (mousey - p_tl[1] > 50) {
+                        p_br[1] = mousey;
+                    }
+                }
             }
+        })
+
+        document.addEventListener('mouseup', (e) => {
+            resizing = false;
         })
     </script>
 </body>
