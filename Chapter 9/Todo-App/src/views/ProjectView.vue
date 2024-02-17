@@ -44,15 +44,7 @@
             json.push(project.to_JSON())
         });
         localStorage.setItem('projects', JSON.stringify(json))
-    })
-
-    watch(current_project.value.todos, () => {
-        let json = []
-        projects.value.forEach(project => {
-            json.push(project.to_JSON())
-        });
-        localStorage.setItem('projects', JSON.stringify(json))
-    })
+    }, {deep: true})
 
     watch(route, () => {
         load_projects()
