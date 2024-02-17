@@ -1,7 +1,7 @@
 <script setup>
     import { ref, watch } from 'vue'
     import Project from './models/project.js'
-    import { RouterLink } from 'vue-router';
+    import { RouterLink, RouterView } from 'vue-router';
     const form_data = {
         name: null
     }
@@ -25,7 +25,6 @@
                 })
             })
         }
-        console.log(projects.value)
     }
 
     const add_project = () => {
@@ -51,7 +50,6 @@
                 <input type="submit" value="Add" class="rounded-full p-1 px-4 bg-white">
             </form>
         </div>
-        <div class="grow bg-blue-100">
-        </div>
+        <RouterView class="grow bg-blue-100"/>
     </div>
 </template>
