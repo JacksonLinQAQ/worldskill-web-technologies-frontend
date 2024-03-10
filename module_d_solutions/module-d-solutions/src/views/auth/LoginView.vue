@@ -5,13 +5,14 @@ import { useAuthStore } from '@/stores/auth';
 
 let user_auth = useAuthStore()
 
+user_auth.alert_msgs = []
 </script>
 
 <template>
   <div class="login-window">
     <h2>Login</h2>
     <h3>Welcome to our website!</h3>
-    <form @submit.prevent="user_auth.onLogin">
+    <form @submit.prevent="() => { user_auth.onLogin(true) }">
       <input type="text" placeholder="Username" v-model="user_auth.login_form.username">
       <input type="password" placeholder="Password" v-model="user_auth.login_form.password">
       <div class="spacing-controller">

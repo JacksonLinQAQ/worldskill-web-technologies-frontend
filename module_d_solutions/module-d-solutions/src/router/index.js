@@ -6,7 +6,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'index',
-      component: () => import('../views/games/index.vue')
+      component: () => import('../views/games/IndexView.vue')
     },
     {
       path: '/login',
@@ -17,6 +17,11 @@ const router = createRouter({
       path: '/signup',
       name: 'signup',
       component: () => import('../views/auth/SignupView.vue')
+    },
+    {
+      path: '/games',
+      name: 'games',
+      component: () => import('../views/games/GamesListView.vue')
     }
   ]
 })

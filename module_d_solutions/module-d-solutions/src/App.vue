@@ -24,11 +24,41 @@ console.log(user_auth.status)
   </nav>
   <nav class="links" v-if="user_auth.status">
     <RouterLink to="/">Home</RouterLink>
+    <RouterLink to="/games">Games</RouterLink>
+  </nav>
+  <nav class="alert-msgs" v-if="user_auth.alert_msgs">
+    <span class="alert-msg" v-for="alert_msg in user_auth.alert_msgs">{{ alert_msg }}</span>
   </nav>
   <RouterView />
 </template>
 
 <style scoped>
+  @keyframes fadein {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  nav.alert-msgs {
+    display: flex;
+    flex-direction: column;
+    margin: 5px;
+    border-radius: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    gap: 5px;
+  }
+
+  nav.alert-msgs > span.alert-msg {
+    background-color: rgba(255, 0, 0, .5);
+    border-radius: 10px;
+    padding: 10px;
+    animation: 0.1s fadein ease-in;
+  }
+
   nav.main {
     display: flex;
     justify-content: space-between;
@@ -104,7 +134,7 @@ console.log(user_auth.status)
   nav.main > div.login > a:nth-child(2),
   nav.main > div.loggedin > button
   {
-    padding: 5px;
+    padding: 6px;
     padding-left: 10px;
     padding-right: 10px;
     background-color: #53c8f7;
